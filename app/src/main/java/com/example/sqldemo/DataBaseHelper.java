@@ -67,7 +67,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         if (cursor.moveToFirst()) {
             //Loop through the cursor (result set) and create new customer objects. Put them into the list return.
-            
+
         }
 
 
