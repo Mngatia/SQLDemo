@@ -59,20 +59,33 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         List<CustomerModel> returnList = new ArrayList<>();
 
         //Get data from the DB
-        String queryString = "SELECT * FROM" + CUSTOMER_TABLE;
+        String queryString = "SELECT * FROM " + CUSTOMER_TABLE;
 
         SQLiteDatabase db = this.getReadableDatabase();
 
-        Cursor cursor = db.rawQuery(queryString);
+        Cursor cursor = db.rawQuery(queryString, null);
 
         if (cursor.moveToFirst()) {
             //Loop through the cursor (result set) and create new customer objects. Put them into the list return.
+            do {
+                int customerID = cursor.getInt(0);
+                String customerName = cursor.getString(1);
+                int customerAge = cursor.getInt(2);
+                boolean customerActive = cursor.getInt(3) == 1 ? true: false;
+
+                CustomerModel newCustomer = new CustomerModel(customerID, customerName, customerAge, customerActive);
+                returnList.add(newCustomer);
+
+            } while (cursor.moveToNext());
 
         }
+        else {
+            //Failure, do not ad  anything to the list
 
-
-
-
+        }
+        // Close both cursor and db when done
+        cursor.close();
+        db.close();
         return returnList;
 
     }
